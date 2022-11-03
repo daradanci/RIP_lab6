@@ -1,3 +1,9 @@
+# New solution code was added to the code 
+# starts from line 90 and ends in line 111
+# Issue was to get filtered nested data 
+# from the database.   
+
+
 from .models import *
 from rest_framework import serializers
 from django.db.models import Max, Min, Sum
@@ -82,3 +88,26 @@ class ExtSerializer(serializers.ModelSerializer):
         fields = '__all__'
         depth=2
 
+
+# Nested Serializer 
+class ModelSerializerWithExtraSausage(serializers.ModelSerializer):
+    class Meta:
+        model = Models
+        fields = '__all__'
+
+
+class StockSerializerWithExtraCheese(serializers.ModelSerializer):
+    idmodel = ModelSerializerWithExtraSausage(read_only = True)
+
+    class Meta:
+        model = Stock
+        fields = ['itemid', 'size', 'amount', 'idmodel']
+
+
+
+class ExtSerializerExtra(serializers.ModelSerializer):
+    idstock = StockSerializerWithExtraCheese(read_only = True)
+
+    class Meta:
+        model = Purchase
+        fields = ['purchaseid', 'quantity', 'idbag', 'idstock']

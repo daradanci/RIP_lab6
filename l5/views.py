@@ -111,13 +111,17 @@ class BagsOfClientViewSet(viewsets.ModelViewSet):
         queryset = Bag.objects.filter(idclient=self.kwargs['client_pk']).order_by('bagstate','-date')
         return queryset
 
+
+# Serializer was changed to new nested serializer
 class CurrBagOfClientViewSet(viewsets.ModelViewSet):
-    serializer_class = ExtSerializer
+    # serializer_class = ExtSerializer
+    serializer_class = ExtSerializerExtra
 
     def get_queryset(self):
         queryset = Purchase.objects.filter(idbag__idclient_id=self.kwargs['client_pk'], idbag__bagstate=1)
         print(type(queryset))
         return queryset
+        
 
 class PurchaseOfBagViewSet(viewsets.ModelViewSet):
     # serializer_class = PurchaseSerializer
