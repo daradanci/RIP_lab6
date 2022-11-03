@@ -16,21 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `l5_state`
---
-
-DROP TABLE IF EXISTS `l5_state`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `l5_state` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `statename` varchar(60) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `statename` (`statename`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `l5_state`
 --
 
@@ -49,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-03 21:36:28
+-- Dump completed on 2022-11-03 21:53:46

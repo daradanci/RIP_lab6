@@ -16,29 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `l5_models`
---
-
-DROP TABLE IF EXISTS `l5_models`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `l5_models` (
-  `modelid` int NOT NULL AUTO_INCREMENT,
-  `modelname` varchar(30) NOT NULL,
-  `price` int DEFAULT NULL,
-  `image` varchar(30) DEFAULT NULL,
-  `idproducer_id` int NOT NULL,
-  `idrange_id` int NOT NULL,
-  PRIMARY KEY (`modelid`),
-  UNIQUE KEY `modelname` (`modelname`),
-  KEY `l5_models_idproducer_id_45e5969f_fk_l5_producer_producerid` (`idproducer_id`),
-  KEY `l5_models_idrange_id_b001d1d0_fk_l5_range_rangeid` (`idrange_id`),
-  CONSTRAINT `l5_models_idproducer_id_45e5969f_fk_l5_producer_producerid` FOREIGN KEY (`idproducer_id`) REFERENCES `l5_producer` (`producerid`),
-  CONSTRAINT `l5_models_idrange_id_b001d1d0_fk_l5_range_rangeid` FOREIGN KEY (`idrange_id`) REFERENCES `l5_range` (`rangeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `l5_models`
 --
 
@@ -57,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-03 21:36:29
+-- Dump completed on 2022-11-03 21:53:46

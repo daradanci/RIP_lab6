@@ -63,7 +63,7 @@ class Bag(models.Model):
     bagid=models.AutoField(verbose_name='bagId', primary_key=True)
     idclient = models.ForeignKey(Client, models.DO_NOTHING, verbose_name='idClient', default=1, related_name='bag_client')
     # bought=models.BooleanField(blank=True, null=True, default=False)
-    sum = models.IntegerField(default=0, null=True)
+    sum = models.IntegerField(default=0, null=False)
     bagstate=models.ForeignKey(State, models.DO_NOTHING, default=1)
     date = models.DateField(_("Date"), default=datetime.date.today)
     def __str__(self):
@@ -77,7 +77,7 @@ class Purchase(models.Model):
     quantity=models.IntegerField(blank=True, null=True, default=0)
     # bought = models.BooleanField(blank=True, null=True, default=False)
     def __str__(self):
-        return f'Покупка {self.purchaseid}: {self.idstock.idmodel.modelname} {self.idstock.size} -- {self.idbag.idclient.clientname}'
+        return f'Покупка {self.purchaseid}: {self.idstock.idmodel.modelname} {self.idstock.size} -- {self.idbag.idclient.clientname}==>{self.idbag_id}'
 
 
 

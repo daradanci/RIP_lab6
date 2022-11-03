@@ -16,26 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `l5_purchase`
---
-
-DROP TABLE IF EXISTS `l5_purchase`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `l5_purchase` (
-  `purchaseid` int NOT NULL AUTO_INCREMENT,
-  `quantity` int DEFAULT NULL,
-  `idbag_id` int NOT NULL,
-  `idstock_id` int NOT NULL,
-  PRIMARY KEY (`purchaseid`),
-  KEY `l5_purchase_idbag_id_6ea53712_fk_l5_bag_bagid` (`idbag_id`),
-  KEY `l5_purchase_idstock_id_1361cc17_fk_l5_stock_itemid` (`idstock_id`),
-  CONSTRAINT `l5_purchase_idbag_id_6ea53712_fk_l5_bag_bagid` FOREIGN KEY (`idbag_id`) REFERENCES `l5_bag` (`bagid`),
-  CONSTRAINT `l5_purchase_idstock_id_1361cc17_fk_l5_stock_itemid` FOREIGN KEY (`idstock_id`) REFERENCES `l5_stock` (`itemid`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `l5_purchase`
 --
 
@@ -54,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-03 21:36:28
+-- Dump completed on 2022-11-03 21:53:46

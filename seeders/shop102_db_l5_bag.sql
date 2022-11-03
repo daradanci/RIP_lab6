@@ -16,27 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `l5_bag`
---
-
-DROP TABLE IF EXISTS `l5_bag`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `l5_bag` (
-  `bagid` int NOT NULL AUTO_INCREMENT,
-  `sum` int DEFAULT NULL,
-  `bagstate_id` bigint NOT NULL,
-  `idclient_id` int NOT NULL,
-  `date` date NOT NULL,
-  PRIMARY KEY (`bagid`),
-  KEY `l5_bag_bagstate_id_c6c59836_fk_l5_state_id` (`bagstate_id`),
-  KEY `l5_bag_idclient_id_fe295c99_fk_l5_client_clientid` (`idclient_id`),
-  CONSTRAINT `l5_bag_bagstate_id_c6c59836_fk_l5_state_id` FOREIGN KEY (`bagstate_id`) REFERENCES `l5_state` (`id`),
-  CONSTRAINT `l5_bag_idclient_id_fe295c99_fk_l5_client_clientid` FOREIGN KEY (`idclient_id`) REFERENCES `l5_client` (`clientid`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `l5_bag`
 --
 
@@ -55,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-03 21:36:29
+-- Dump completed on 2022-11-03 21:53:47
