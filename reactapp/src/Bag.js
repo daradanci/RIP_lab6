@@ -102,7 +102,6 @@ class Bag extends Component {
     }
     render() {
         const {error, isLoaded,bag, purchases, sum} = this.state;
-
         // console.log(purchases);
         const decline=(purchase)=>{
             let item=purchase.idstock;
@@ -130,6 +129,7 @@ class Bag extends Component {
                 .then(response=>{
                     this.load_purchases();
                     this.load_bag();
+                    this.setState({sum:0})
                     // this.load_sum();
                     // this.setState({
                     //     bag:{}

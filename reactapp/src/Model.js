@@ -152,7 +152,7 @@ class Model extends Component {
                 body: JSON.stringify({ quantity:1, idbag:this.state.client.current_bag, idstock:item.itemid })
                 };
                 fetch(`http://127.0.0.1:8000/purchase/`, requestOptions1)
-                console.log(requestOptions1)
+                    .then(()=>{this.load_bag()})
 
                 // const requestOptions2 = {
                 // method: 'GET',
