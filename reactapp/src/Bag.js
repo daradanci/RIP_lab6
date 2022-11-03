@@ -180,6 +180,8 @@ class Bag extends Component {
             </div>
             </DocumentTitle>
         );
+
+        
     }
 }
 
