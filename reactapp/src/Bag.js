@@ -39,6 +39,7 @@ class Bag extends Component {
                 this.setState({
                     isLoaded:true,
                     bag: result[0],
+                    sum:result[0]['sum']
                 });
             }
         ).then(()=>{
@@ -167,21 +168,20 @@ class Bag extends Component {
                     </div>
                 ))}
                 </div>
+                {sum>0&&<div>Итого: {sum} руб.</div>}
 
-                {bag.sum>0&&<div>Итого: {sum} руб.</div>}
-
-                {bag.sum>0 &&
+                {sum>0 &&
                     <input id="buy_bag_button" className={'buy_bag_button'}
                                type="submit" value="Оплатить" onClick={buy}/>
                 }
-                {!bag.sum&&
+                {!sum&&
                 <div className={'error_message'}>Корзина пуста.</div>
                 }
             </div>
             </DocumentTitle>
         );
 
-        
+
     }
 }
 
