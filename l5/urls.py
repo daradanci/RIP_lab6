@@ -17,8 +17,9 @@ router.register(r'bag', shop_views.BagViewSet, basename='bag')
 
 models_router=routers.NestedDefaultRouter(router, r'range', lookup='range')
 models_router.register(r'models', shop_views.ModelsOfTypeViewSet, basename='models-of-type')
-models_router.register(r'max_price', shop_views.GetMaxPrice, basename='max-price')
-models_router.register(r'min_price', shop_views.GetMinPrice, basename='min-price')
+# models_router.register(r'max_price', shop_views.GetMaxPrice, basename='max-price')
+models_router.register(r'min_max_price', shop_views.GetMinMaxPrice, basename='min-price')
+models_router.register(r'testmodels', shop_views.TestModelsViewSet, basename='test-models')
 
 stock_router=routers.NestedDefaultRouter(models_router, r'models', lookup='models')
 stock_router.register(r'stock', shop_views.StockOfModelViewSet, basename='stock-of-model')

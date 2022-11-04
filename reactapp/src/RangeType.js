@@ -28,8 +28,8 @@ class RangeType extends Component {
     }
     componentDidMount(){
         this.load_range();
-        this.load_models();
         this.load_prices();
+        this.load_models();
     }
     load_range(){
         let combo=window.location.pathname.split('/');
@@ -54,6 +54,12 @@ class RangeType extends Component {
         )
     }
     load_models(){
+        const requestOptions = {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ minPrice: this.state.minPrice, maxPrice:this.state.maxPrice,
+                search_input:this.state.search_input })
+        };
         const res = fetch(`http://127.0.0.1:8000/range/${this.rangeId}/models/`)
         .then (res => res.json())
         .then(
@@ -74,20 +80,23 @@ class RangeType extends Component {
         )
     }
     load_prices(){
-        const res=fetch(`http://127.0.0.1:8000/range/${this.rangeId}/max_price/`)
+        const res=fetch(`http://127.0.0.1:8000/range/${this.rangeId}/min_max_price/`)
             .then (res => res.json())
             .then(
                 (result)=>{
                     this.setState({
-                        maxPrice:result[0].price,
-                        minPrice:result[result.length-1].price
+                        maxPrice:result[0].max.price__max,
+                        minPrice:result[0].min.price__min
                 });
-                    this.maxBorder=result[0].price;
-                    this.minBorder=result[result.length-1].price;
+                    this.maxBorder=result[0].max.price__max;
+                    this.minBorder=result[0].min.price__min;
                 }
             )
         // console.log(res);
     }
+
+
+
     render() {
         const {error, isLoaded, range, models, search_input, isOpen, minPrice, maxPrice} = this.state;
         console.log(maxPrice)
@@ -145,7 +154,7 @@ class RangeType extends Component {
                                      return <div {...props} className={'track'}></div>
                                  }}
                                  onChange={([min, max])=>{
-                                     console.log(this.state.maxPrice);
+                                     // console.log(this.state.maxPrice);
 
                                      this.setState({
                                          minPrice: min,

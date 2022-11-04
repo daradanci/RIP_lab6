@@ -27,9 +27,16 @@ class ModelsOfTypeViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Models.objects.filter(idrange=self.kwargs['range_pk'])
-        print(self.kwargs)
+        # print(self.kwargs)
         return queryset
 
+
+class TestModelsViewSet(viewsets.ModelViewSet):
+    parser_classes = ModelsSerializer
+    def get_queryset(self):
+        queryset = Models.objects.filter(idrange=self.kwargs['range_pk'])
+
+        return queryset
 
 
 class StockOfModelViewSet(viewsets.ModelViewSet):
@@ -65,12 +72,26 @@ class GetMaxPrice(viewsets.ModelViewSet):
         return queryset
 
 
-class GetMinPrice(viewsets.ModelViewSet):
-    serializer_class = ModelsSerializer
+class GetMinMaxPrice(viewsets.ModelViewSet):
+
     def get_queryset(self):
-        queryset=Models.objects.filter(idrange=self.kwargs['range_pk']).order_by('price')
+        queryset=Models.objects.filter(idrange_id=self.kwargs['range_pk'])
+
+        print(queryset)
         return queryset
 
+    def get_serializer(self, *args, **kwargs):
+        serializer_class = MinMaxSerializer
+        kwargs['context'] = self.get_serializer_context()
+        return serializer_class(*args, **kwargs)
+
+    def get_serializer_context(self):
+        return {
+            'request': self.request,
+            'format': self.format_kwarg,
+            'view': self,
+            'ID':self.kwargs['range_pk']
+        }
 
 class ExtViewSet(viewsets.ModelViewSet):
     serializer_class = ExtSerializer
@@ -101,7 +122,10 @@ class BagOfClientViewSet(viewsets.ModelViewSet):
 
         else:
             for bag in queryset:
-                bag.sum=Models.objects.filter(stock_of_model__purchase_stock__idbag_id=bag.bagid).aggregate(Sum('price'))['price__sum']
+                newsum=Models.objects.filter(stock_of_model__purchase_stock__idbag_id=bag.bagid).aggregate(Sum('price'))['price__sum']
+                if(len(Models.objects.filter(stock_of_model__purchase_stock__idbag_id=bag.bagid))==0):
+                    newsum=0
+                bag.sum=newsum
                 bag.save()
         return queryset
 
@@ -111,8 +135,10 @@ class BagsOfClientViewSet(viewsets.ModelViewSet):
         queryset = Bag.objects.filter(idclient=self.kwargs['client_pk']).order_by('bagstate','-date')
         return queryset
 
+# Serializer was changed to new nested serializer
 class CurrBagOfClientViewSet(viewsets.ModelViewSet):
-    serializer_class = ExtSerializer
+    # serializer_class = ExtSerializer
+    serializer_class = ExtSerializerExtra
 
     def get_queryset(self):
         queryset = Purchase.objects.filter(idbag__idclient_id=self.kwargs['client_pk'], idbag__bagstate=1)

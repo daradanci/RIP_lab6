@@ -69,6 +69,31 @@ class PurchaseSumSerializer(serializers.ModelSerializer):
 
         return sum
 
+class MinMaxSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Models
+        fields=['price']
+
+    def to_representation(self, instance):
+        print(self.context)
+        # original_representation = super().to_representation(instance)
+
+        representation = {
+            'max': self.get_max(instance,self.context['ID']),
+            'min': self.get_min(instance,self.context['ID']),
+        }
+
+        return representation
+    def get_max(self, obj, ID):
+        print(ID)
+        max=Models.objects.filter(idrange_id=ID).aggregate(Max('price'))
+        return max
+    def get_min(self, obj, ID):
+        print(ID)
+        min=Models.objects.filter(idrange_id=ID).aggregate(Min('price'))
+        return min
+
+
 class BagSerializer(serializers.ModelSerializer):
     class Meta:
         model=Bag
@@ -82,3 +107,27 @@ class ExtSerializer(serializers.ModelSerializer):
         fields = '__all__'
         depth=2
 
+
+
+# Nested Serializer
+class ModelSerializerWithExtraSausage(serializers.ModelSerializer):
+    class Meta:
+        model = Models
+        fields = '__all__'
+
+
+class StockSerializerWithExtraCheese(serializers.ModelSerializer):
+    idmodel = ModelSerializerWithExtraSausage(read_only = True)
+
+    class Meta:
+        model = Stock
+        fields = ['itemid', 'size', 'amount', 'idmodel']
+
+
+
+class ExtSerializerExtra(serializers.ModelSerializer):
+    idstock = StockSerializerWithExtraCheese(read_only = True)
+
+    class Meta:
+        model = Purchase
+        fields = ['purchaseid', 'quantity', 'idbag', 'idstock']

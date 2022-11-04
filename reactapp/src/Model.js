@@ -54,7 +54,7 @@ class Model extends Component {
             (result) =>{
                 this.setState({
                     isLoaded:true,
-                    bag: result,
+                    bag: result[0],
                 });
             }
         )
@@ -129,7 +129,7 @@ class Model extends Component {
     render() {
         const {error, isLoaded, model, sizes, producer, bag} = this.state;
         console.log(model.modelname)
-
+        console.log(bag)
         const buy=(bag)=> {
             let item=JSON.parse(document.getElementById('size_list').value)
             console.log(item)
@@ -149,7 +149,8 @@ class Model extends Component {
                 const requestOptions1 = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ quantity:1, idbag:this.state.client.current_bag, idstock:item.itemid })
+                // body: JSON.stringify({ quantity:1, idbag:this.state.client.current_bag, idstock:item.itemid })
+                body: JSON.stringify({ quantity:1, idbag:bag.bagid, idstock:item.itemid })
                 };
                 fetch(`http://127.0.0.1:8000/purchase/`, requestOptions1)
                     .then(()=>{this.load_bag()})
