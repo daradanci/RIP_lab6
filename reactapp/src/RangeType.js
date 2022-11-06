@@ -81,6 +81,7 @@ class RangeType extends Component {
     }
     load_prices(){
         const res=fetch(`http://127.0.0.1:8000/range/${this.rangeId}/min_max_price/`)
+        // const res=fetch(`http://127.0.0.1:8000/date/${DATE}/sum/`)
             .then (res => res.json())
             .then(
                 (result)=>{

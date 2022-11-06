@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 import datetime
+from django.contrib.auth import models as user_models
+from django.contrib.auth.models import PermissionsMixin
 
 class Producer(models.Model):
     producerid=models.AutoField(verbose_name='producerId', primary_key=True)
@@ -44,12 +46,12 @@ class Stock(models.Model):
     def __str__(self):
         return f'{self.idmodel.modelname} {self.size}'
 
-class Client(models.Model):
-    clientid=models.AutoField(verbose_name='clientId', primary_key=True)
-    clientname=models.CharField(verbose_name='clientName', max_length=60)
-    login=models.CharField(unique=True, max_length=10)
+class Client(user_models.AbstractBaseUser, PermissionsMixin):
+    clientid=models.AutoField(primary_key=True)
+    clientname=models.CharField(max_length=150)
+    login=models.CharField(unique=True, max_length=20)
     password = models.CharField(unique=True, max_length=10)
-    current_bag=models.IntegerField(default=0)
+    # current_bag=models.IntegerField(default=0)
     def __str__(self):
         return self.clientname
 

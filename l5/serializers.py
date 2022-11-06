@@ -135,3 +135,24 @@ class ExtSerializerExtra(serializers.ModelSerializer):
     class Meta:
         model = Purchase
         fields = ['purchaseid', 'quantity', 'idbag', 'idstock']
+
+
+class CountModelsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Bag
+        fields='__all__'
+
+    def to_representation(self, instance):
+        print(self.context)
+        # original_representation = super().to_representation(instance)
+
+        representation = {
+            'count': self.get_count(instance,self.context['ID']),
+        }
+
+        return representation
+    def get_count(self, obj, ID):
+        print(ID)
+        # date=datetime.datetime.strptime(ID,'%Y-%m-%d')
+        count=Bag.objects.filter(date=ID).count()
+        return count

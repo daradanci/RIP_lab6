@@ -183,3 +183,31 @@ class BuyBagViewSet(viewsets.ModelViewSet):
             bag.bagstate_id=2
             bag.save()
         return queryset
+
+
+class CountModels(viewsets.ModelViewSet):
+
+    def get_queryset(self):
+        queryset=Bag.objects.filter(bagid=1)
+        print(self.kwargs)
+        return queryset
+
+    def get_serializer(self, *args, **kwargs):
+        serializer_class = CountModelsSerializer
+        # serializer_class=BagSerializer
+
+        kwargs['context'] = self.get_serializer_context()
+        return serializer_class(*args, **kwargs)
+        # return serializer_class
+
+    def get_serializer_context(self):
+        print(123)
+        print(self.kwargs)
+        return {
+            'request': self.request,
+            'format': self.format_kwarg,
+            'view': self,
+            # 'ID': datetime.datetime.strptime(self.kwargs['pk'],'%Y-%m-%d')
+            'ID':"2022-11-09"
+            # 'ID':self.kwargs['pk']
+        }
