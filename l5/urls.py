@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework_nested import routers
 from . import views as shop_views
 
@@ -14,6 +14,7 @@ router.register(r'purchase', shop_views.PurchaseViewSet, basename='purchase')
 router.register(r'ext', shop_views.ExtViewSet, basename='ext')
 router.register(r'bag', shop_views.BagViewSet, basename='bag')
 router.register(r'count', shop_views.CountModels, basename='count-models')
+# router.register(r'add_user', shop_views.getJson.as_view(), basename='add-user')
 
 models_router=routers.NestedDefaultRouter(router, r'range', lookup='range')
 models_router.register(r'models', shop_views.ModelsOfTypeViewSet, basename='models-of-type')
@@ -45,6 +46,7 @@ urlpatterns = [
     path('', include(stock_router.urls)),
     path('', include(bag_router.urls)),
     path('', include(purchase_router.urls)),
-
+    path('add_user',shop_views.getJson,name='getJson'),
 ]
+# urlpatterns+=[re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]
 

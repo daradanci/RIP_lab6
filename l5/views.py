@@ -1,10 +1,21 @@
 from django.shortcuts import render
 from django.db.models import Max, Min, Sum
 from rest_framework import viewsets, serializers, status, generics
+from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from .models import *
 from .serializers import *
 from drf_multiple_model.views import ObjectMultipleModelAPIView
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.conf import settings
+import uuid
+# Connect to our Redis instance
+# session_storage = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT)
 
 def index(request):
     return render(request, 'index.html')
@@ -27,6 +38,17 @@ class ModelsOfTypeViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Models.objects.filter(idrange=self.kwargs['range_pk'])
+        if self.request.method=='GET':
+
+            params=self.request.query_params.dict()
+            print(params)
+            # print(params['max_price'])
+            if 'min_price' in params and 'max_price' in params:
+                queryset = Models.objects.filter(idrange=self.kwargs['range_pk'],
+                                             price__gte=params['min_price'],price__lte=params['max_price'])
+            elif 'search_input' in params:
+                queryset = Models.objects.filter(idrange=self.kwargs['range_pk'],
+                                                 modelname__icontains=params['search_input'])
         # print(self.kwargs)
         return queryset
 
@@ -211,3 +233,19 @@ class CountModels(viewsets.ModelViewSet):
             'ID':"2022-11-09"
             # 'ID':self.kwargs['pk']
         }
+
+
+from django.contrib.auth.models import User
+
+@api_view(['GET', 'POST'])
+def getJson(request):
+        if request.method == 'POST':
+            # user = User.objects.create_user(request.data['username'], request.data['email'], request.data['password'])
+            # user.last_name = 'Lennon'
+            # user.save()
+            print(request.data)
+            return HttpResponse("{'status': 'ok'}")
+        else:
+            return HttpResponse("{'status': 'neok'}")
+
+

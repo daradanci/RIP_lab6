@@ -102,8 +102,8 @@ class RangeType extends Component {
         const {error, isLoaded, range, models, search_input, isOpen, minPrice, maxPrice} = this.state;
         console.log(maxPrice)
         console.log(minPrice)
-        let lowPoint=this.state.minPrice;
-        let highPoint=this.state.maxPrice;
+        // let lowPoint=this.state.minPrice;
+        // let highPoint=this.state.maxPrice;
         const filteredModels = models.filter(models=>{
             return models.modelname.toLowerCase().includes(search_input.toLowerCase())
         })
